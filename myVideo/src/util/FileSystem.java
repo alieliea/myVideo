@@ -17,7 +17,7 @@ public class FileSystem {
 	public static String filePath = "";
 
 	public static void init(String filepath) {
-		fileList = new ArrayList<FileObject>();
+		fileList = FileManager.fileList;
 		filePath = filepath;
 	}
 
@@ -36,7 +36,8 @@ public class FileSystem {
 				for (int i = 0; i < filelist.length; i++) {
 					File readfile = new File(filepath + "/" + filelist[i]);
 					if (!readfile.isDirectory()) {
-						long lastModified = FileManager.search(filelist[i], filepath.replace(filePath, "")).get(0).getLastModified();
+						ArrayList<FileObject> search = FileManager.search(filelist[i], filepath.replace(filePath, ""));
+						long lastModified = (search != null && search.size() > 0) ? search.get(0).getLastModified() : 0;
 						if(readfile.lastModified() > lastModified){
 							FileObject item = new FileObject();
 							item.setFileName(readfile.getName());
@@ -64,7 +65,8 @@ public class FileSystem {
 							fileList.add(item);
 						}
 					} else if (readfile.isDirectory()) {
-						long lastModified = FileManager.search(filelist[i], filepath.replace(filePath, "")).get(0).getLastModified();
+						ArrayList<FileObject> search = FileManager.search(filelist[i], filepath.replace(filePath, ""));
+						long lastModified = (search != null && search.size() > 0) ? search.get(0).getLastModified() : 0;
 						if(readfile.lastModified() > lastModified){
 							FileObject direct = new FileObject();
 							direct.setFileName(filelist[i]);

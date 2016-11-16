@@ -11,12 +11,29 @@ import entity.FileObject;
 
 public class FileManager {
 	private static File DB = new File(PropertiesConfig.fileDB);
+	public static ArrayList<FileObject> fileList = new ArrayList<FileObject>();
 
+	@SuppressWarnings("unchecked")
 	public static void initFileList(String fileName) {
 		DB = new File(fileName);
-//		if (DB.exists()) {
-//			DB.delete();
-//		}
+		if (DB.exists()) {
+			FileInputStream fi = null;
+			ObjectInputStream oi = null;
+			try {
+				fi = new FileInputStream(DB);
+				oi = new ObjectInputStream(fi);
+				Object obj = oi.readObject();
+				fi.close();
+				oi.close();
+				if (obj instanceof ArrayList)
+					fileList = (ArrayList<FileObject>) obj;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		if(fileList == null){
+			fileList = new ArrayList<FileObject>(); 
+		}
 	}
 
 	/**
@@ -27,7 +44,6 @@ public class FileManager {
 	@SuppressWarnings("unchecked")
 	public static ArrayList<FileObject> search(String name, String path) {
 		ArrayList<FileObject> rlt = new ArrayList<FileObject>();
-		ArrayList<FileObject> fileList = new ArrayList<FileObject>();
 		DB = new File(PropertiesConfig.fileDB);
 		if (DB.exists()) {
 			FileInputStream fi = null;
@@ -44,7 +60,7 @@ public class FileManager {
 				e.printStackTrace();
 			}
 		}
-		if (fileList != null){
+		if (fileList != null) {
 			if (StringUtil.isEmptyStr(name) && StringUtil.isEmptyStr(path)) {
 				for (FileObject f : fileList) {
 					if (f.getFileName().contains(name) && f.getDirect().equals(path)) {
@@ -73,7 +89,7 @@ public class FileManager {
 	public static void save(ArrayList<FileObject> list) {
 		if (list == null || list.size() <= 0)
 			return;
-		if (!DB.exists()){
+		if (!DB.exists()) {
 			try {
 				DB.createNewFile();
 			} catch (Exception e) {
