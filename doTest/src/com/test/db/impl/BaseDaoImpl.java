@@ -13,10 +13,12 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.test.db.BaseDao;
 import com.test.db.DBManager;
+import com.test.util.Pages;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 
+@SuppressWarnings("unchecked")
 public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
 	private static String tableName;
@@ -55,22 +57,22 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		}
 		return true;
 	}
-	
+
 	@Override
-	public boolean delete(int id){
+	public boolean delete(int id) {
 		FileWriter writer = null;
 		try {
 			if (findById(id) == null) {
 				System.err.println("主键错误");
 				return false;
-			}else{
+			} else {
 				String[] values = getALLStr().split("\r\n");
 				String newValues = "";
-				for(String value : values){
+				for (String value : values) {
 					JSONObject v;
 					try {
 						v = StringToJson(value);
-						if(v.getInt("id") != id){
+						if (v.getInt("id") != id) {
 							newValues += v + "\r\n";
 						}
 					} catch (JSONException e) {
@@ -95,9 +97,9 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		}
 		return false;
 	}
-	
+
 	@Override
-	public boolean update(T t){
+	public boolean update(T t) {
 		JSONObject object;
 		FileWriter writer = null;
 		try {
@@ -106,16 +108,16 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			if (entity.get("id") == null || entity.get("id").equals("") || findById(entity.get("id")) == null) {
 				System.err.println("主键错误");
 				return false;
-			}else{
+			} else {
 				String[] values = getALLStr().split("\r\n");
 				String newValues = "";
-				for(String value : values){
+				for (String value : values) {
 					JSONObject v;
 					try {
 						v = StringToJson(value);
-						if(v.getInt("id") == entity.getInt("id")){
+						if (v.getInt("id") == entity.getInt("id")) {
 							newValues += entity.toString() + "\r\n";
-						}else{
+						} else {
 							newValues += v + "\r\n";
 						}
 					} catch (JSONException e) {
@@ -140,25 +142,29 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		}
 		return false;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
-	public List<T> getALL(){
+	public List<T> getALL() {
 		String[] value = getALLStr().split("\r\n");
 		List<T> list = new ArrayList<T>();
-		for(String v : value){
-			list.add((T)JSONToObj(v, t_class));
-//			JSONObject object;
-//			try {
-//				object = StringToJson(v);
-//			} catch (JSONException e) {
-//				e.printStackTrace();
-//			}
+		for (String v : value) {
+			list.add((T) JSONToObj(v, t_class));
 		}
 		return list;
 	}
 
-	@SuppressWarnings({ "resource", "unchecked" })
+	public Pages<T> getALLByPage(Pages<T> pages) {
+		String[] value = getALLStr().split("\r\n");
+		pages.setCount(value.length);
+		List<T> list = new ArrayList<>();
+		for (int i = pages.getFirstResult(); i < pages.getMaxResult(); i++) {
+			list.add((T) JSONToObj(value[i], t_class));
+		}
+		pages.setList(list);
+		return pages;
+	}
+
+	@SuppressWarnings({ "resource" })
 	@Override
 	public T findById(Object id) {
 		File file = DBManager.getTable(tableName);

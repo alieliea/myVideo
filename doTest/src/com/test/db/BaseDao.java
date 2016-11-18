@@ -2,6 +2,8 @@ package com.test.db;
 
 import java.util.List;
 
+import com.test.util.Pages;
+
 public interface BaseDao <T>{
 
 
@@ -36,4 +38,11 @@ public interface BaseDao <T>{
 	 * @return
 	 */
 	public abstract boolean delete(int id);
+	
+	/**
+	 * 分页查询
+	 * @param page
+	 * @return
+	 */
+	public abstract Pages<T> getALLByPage(Pages<T> pages);
 }

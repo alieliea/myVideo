@@ -48,4 +48,10 @@ public class Pages<T> {
 		int pageCount = getCount() / getRows() + (getCount() % getRows() == 0 ? 0 : 1);
 		return pageCount;
 	}
+
+	public int getMaxResult() {
+		int max = (getPage() - 1) * getRows() + getRows();
+		max = max > count ? count : max;
+		return max;
+	}
 }

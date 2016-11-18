@@ -2,9 +2,11 @@ package com.test.db;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import com.test.db.impl.TestDaoImpl;
 import com.test.entity.Test;
+import com.test.util.Pages;
 
 public class DBManager {
 
@@ -73,6 +75,15 @@ public class DBManager {
 //		}
 //		test.setA(15);
 //		dao.update(test);
-		dao.delete(5);
+//		dao.delete(5);
+		Pages<Test> page = new Pages<>();
+		page.setPage(3);
+		page.setRows(2);
+		List<Test> list = dao.getALLByPage(page).getList();
+		if(list != null && list.size() > 0){
+			for(Test t : list){
+				System.out.println(t.getA());
+			}
+		}
 	}
 }
