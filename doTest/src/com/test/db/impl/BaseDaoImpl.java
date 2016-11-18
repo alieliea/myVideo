@@ -1,6 +1,5 @@
 package com.test.db.impl;
 
-import java.beans.PropertyDescriptor;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,12 +9,10 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.beanutils.PropertyUtilsBean;
 import org.codehaus.jackson.map.ObjectMapper;
 
 import com.test.db.BaseDao;
 import com.test.db.DBManager;
-import com.test.entity.BaseEntity;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -239,26 +236,6 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		String name = t.getName();
 		name = name.substring(name.lastIndexOf(".") + 1);
 		return name;
-	}
-
-	public static ArrayList<BaseEntity> beanToMap(Object obj) {
-		ArrayList<BaseEntity> params = new ArrayList<BaseEntity>(0);
-		try {
-			PropertyUtilsBean propertyUtilsBean = new PropertyUtilsBean();
-			PropertyDescriptor[] descriptors = propertyUtilsBean.getPropertyDescriptors(obj);
-			for (int i = 0; i < descriptors.length; i++) {
-				String name = descriptors[i].getName();
-				if (!"class".equals(name)) {
-					BaseEntity base = new BaseEntity();
-					base.setName(name);
-					base.setValue(propertyUtilsBean.getNestedProperty(obj, name));
-					params.add(base);
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return params;
 	}
 
 	public static JSONObject StringToJson(String line) {
