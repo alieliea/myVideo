@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -153,7 +154,20 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		return list;
 	}
 
+	@Override
 	public Pages<T> getALLByPage(Pages<T> pages) {
+		String[] value = getALLStr().split("\r\n");
+		pages.setCount(value.length);
+		List<T> list = new ArrayList<>();
+		for (int i = pages.getFirstResult(); i < pages.getMaxResult(); i++) {
+			list.add((T) JSONToObj(value[i], t_class));
+		}
+		pages.setList(list);
+		return pages;
+	}
+	
+	@Override
+	public Pages<T> searchByPage_conditions(Pages<T> pages,Map<String, Object> conditions) {
 		String[] value = getALLStr().split("\r\n");
 		pages.setCount(value.length);
 		List<T> list = new ArrayList<>();
@@ -189,6 +203,27 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 
 	public static String getALLStr() {
+		File file = DBManager.getTable(tableName);
+		String str = "";
+		if (file.exists()) {
+			BufferedReader br;
+			try {
+				br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
+				for (String line = br.readLine(); line != null; line = br.readLine()) {
+					str += line + "\r\n";
+				}
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				return null;
+			}
+		} else {
+			System.out.println("数据库不存在");
+		}
+		return str;
+	}
+	
+	public static String getStrByCondition(Map<String, Object> conditions) {
 		File file = DBManager.getTable(tableName);
 		String str = "";
 		if (file.exists()) {
