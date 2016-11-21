@@ -5,10 +5,10 @@ devMode = true
 showSql = true
 
 ##urls
-base_url = http://192.168.0.129:8080/api_projects/
-back_url = http://192.168.0.129:8080/api_projects/system/
+base_url = http://192.168.0.129:8888/api_projects/
+back_url = http://192.168.0.129:8888/api_projects/
 file_path = D:/attached/
-file_url = http://192.168.0.129:8080/api_projects/img/
+file_url = http://192.168.0.129:8888/api_projects/img/
 
 ##上传文件的类型
 up_image = gif,jpg,jpeg,png,bmp
