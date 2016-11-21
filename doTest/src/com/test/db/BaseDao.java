@@ -2,7 +2,7 @@ package com.test.db;
 
 import java.util.List;
 
-import com.test.entity.Conditions;
+import com.test.util.Conditions;
 import com.test.util.Pages;
 
 public interface BaseDao <T>{

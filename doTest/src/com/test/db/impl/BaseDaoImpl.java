@@ -14,7 +14,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.test.db.BaseDao;
 import com.test.db.DBManager;
-import com.test.entity.Conditions;
+import com.test.util.Conditions;
 import com.test.util.Pages;
 
 import net.sf.json.JSONException;
@@ -40,7 +40,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			} else {
 				entity.put("id", id);
 				writer = new FileWriter(tables, true);
-				writer.write("\r\n" + entity.toString());
+				writer.write(entity.toString() + "\r\n");
 			}
 		} catch (JSONException e) {
 			e.printStackTrace();
