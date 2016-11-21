@@ -14,6 +14,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import com.test.db.BaseDao;
 import com.test.db.DBManager;
+import com.test.entity.Conditions;
 import com.test.util.Pages;
 
 import net.sf.json.JSONException;
@@ -167,12 +168,40 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 	
 	@Override
-	public Pages<T> searchByPage_conditions(Pages<T> pages,Map<String, Object> conditions) {
-		String[] value = getALLStr().split("\r\n");
-		pages.setCount(value.length);
+	public Pages<T> searchByPage_conditions(Pages<T> pages,List<Conditions> conditions) {
+		String[] values = getALLStr().split("\r\n");
+		String results = "";
+		for(String value : values){
+			JSONObject v = StringToJson(value);
+			boolean flag = false;
+			if(conditions != null){
+				for(Conditions condition : conditions){
+					if(condition.getType() == 1 && v.get(condition.getName()).equals(condition.getValue())){
+						flag = true;
+					}
+					if(condition.getType() == 2 && v.getString(condition.getName()).indexOf(condition.getValue().toString()) > -1){
+						flag = true;
+					}
+					if(condition.getType() == 3){
+						String [] condi = condition.getValue().toString().split("-");
+						if(!condi[0].equals("")){
+							flag = v.getLong(condition.getName()) >= Long.valueOf(condi[0]);
+						}
+						if(!condi[1].equals("")){
+							flag = v.getLong(condition.getName()) <= Long.valueOf(condi[1]);
+						}
+					}
+				}
+			}
+			if(flag){
+				results += v.toString() + "\r\n";
+			}
+		}
+		String[] result = results.split("\r\n");
+		pages.setCount(result.length);
 		List<T> list = new ArrayList<>();
 		for (int i = pages.getFirstResult(); i < pages.getMaxResult(); i++) {
-			list.add((T) JSONToObj(value[i], t_class));
+			list.add((T) JSONToObj(result[i], t_class));
 		}
 		pages.setList(list);
 		return pages;

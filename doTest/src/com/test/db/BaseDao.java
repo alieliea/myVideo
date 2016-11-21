@@ -1,8 +1,8 @@
 package com.test.db;
 
 import java.util.List;
-import java.util.Map;
 
+import com.test.entity.Conditions;
 import com.test.util.Pages;
 
 public interface BaseDao <T>{
@@ -47,5 +47,5 @@ public interface BaseDao <T>{
 	 */
 	public abstract Pages<T> getALLByPage(Pages<T> pages);
 	
-	public abstract Pages<T> searchByPage_conditions(Pages<T> pages,Map<String, Object> conditions);
+	public abstract Pages<T> searchByPage_conditions(Pages<T> pages,List<Conditions> conditions);
 }
