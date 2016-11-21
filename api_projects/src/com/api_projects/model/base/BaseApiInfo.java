@@ -57,4 +57,12 @@ public abstract class BaseApiInfo<M extends BaseApiInfo<M>> extends Model<M> imp
 		return get("status");
 	}
 
+	public void setDoUrl(java.lang.String doUrl) {
+		set("doUrl", doUrl);
+	}
+
+	public java.lang.String getDoUrl() {
+		return get("doUrl");
+	}
+
 }

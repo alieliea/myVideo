@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import com.api_projects.common.StaticObject;
 import com.api_projects.model.Admin;
 import com.api_projects.service.AdminService;
 import com.api_projects.service.impl.AdminServiceImpl;
@@ -27,6 +28,9 @@ public class AdminAction extends Controller {
 		if (admin != null) {
 			result.put("success", true);
 			result.put("msg", "登陆成功");
+			setSessionAttr(StaticObject.LOGINUSER, admin);
+			setSessionAttr(StaticObject.LOGINID, admin.getId());
+			setSessionAttr(StaticObject.USERNAME, admin.getUsername());
 		} else {
 			result.put("success", false);
 			result.put("msg", "用户名密码错误!!");
@@ -35,13 +39,17 @@ public class AdminAction extends Controller {
 	}
 
 	public void main() {
-		String strURL = "http://192.168.0.151:8080/dzyx/inter_json/" + "merchant_other_merchantList.do";
+		String url = getPara("api_url");
+		String doUrl = getPara("api_doUrl");
+		String strURL = url + doUrl;
 		Map<String, String[]> param = getParaMap();
 		JSONObject obj = new JSONObject();
 		Iterator<String> it = param.keySet().iterator();
 		while (it.hasNext()) {
 			String key = it.next();
-			obj.put(key, param.get(key)[0]);
+			if(!key.equals("api_url") && !key.equals("api_doUrl")){
+				obj.put(key, param.get(key)[0]);
+			}
 		}
 		System.out.println(obj.toString());
 		String enString;
@@ -55,5 +63,16 @@ public class AdminAction extends Controller {
 		result.put("param", obj.toString());
 		result.put("result", results);
 		renderJson(result);
+	}
+	
+	public void logOut() {
+		this.clearSessions();
+		redirect("/admin/toLogin");
+	}
+	
+	private void clearSessions() {
+		for (String object : StaticObject.ALLOBJECT) {
+			removeSessionAttr(object);
+		}
 	}
 }
