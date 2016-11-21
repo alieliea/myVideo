@@ -1,0 +1,19 @@
+jdbcUrl = jdbc:mysql://mydatabase.cqmutzvn5vaf.ap-southeast-1.rds.amazonaws.com:3306/webSet?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = wbc
+password = flj231986
+devMode = true
+showSql = true
+
+##urls
+base_url = http://192.168.0.129:8080/myTest/
+back_url = http://192.168.0.129:8080/myTest/system/
+file_path = D:/attached/
+file_url = http://192.168.0.129:8080/myTest/img/
+
+##上传文件的类型
+up_image = gif,jpg,jpeg,png,bmp
+up_flash = swf,flv
+up_media = swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb
+up_file = doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2
+
+maxSize = 1000000
