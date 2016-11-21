@@ -14,7 +14,7 @@ public class LoginInterceptor implements Interceptor{
 		if(sessionId != null){
 			inv.invoke();
 		}else{
-			controller.redirect("/system/login");
+			controller.redirect("/admin/toLogin");
 		}
 	}
 }

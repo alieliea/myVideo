@@ -1,22 +1,24 @@
 package com.api_projects.action;
 
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import com.api_projects.common.StaticObject;
+import com.api_projects.interceptor.LoginInterceptor;
 import com.api_projects.model.Admin;
+import com.api_projects.model.Projects;
 import com.api_projects.service.AdminService;
+import com.api_projects.service.ProjectService;
 import com.api_projects.service.impl.AdminServiceImpl;
-import com.api_projects.util.AESOperator;
-import com.api_projects.util.TrustSSL;
+import com.api_projects.service.impl.ProjectServiceImpl;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
-
-import net.sf.json.JSONObject;
 
 public class AdminAction extends Controller {
 
 	private AdminService adminService = new AdminServiceImpl();
+	private ProjectService projectService = new ProjectServiceImpl();
 	private Map<String, Object> result = new HashMap<String, Object>();
 
 	public void toLogin() {
@@ -38,31 +40,12 @@ public class AdminAction extends Controller {
 		renderJson(result);
 	}
 
+	@Before(LoginInterceptor.class)
 	public void main() {
-		String url = getPara("api_url");
-		String doUrl = getPara("api_doUrl");
-		String strURL = url + doUrl;
-		Map<String, String[]> param = getParaMap();
-		JSONObject obj = new JSONObject();
-		Iterator<String> it = param.keySet().iterator();
-		while (it.hasNext()) {
-			String key = it.next();
-			if(!key.equals("api_url") && !key.equals("api_doUrl")){
-				obj.put(key, param.get(key)[0]);
-			}
-		}
-		System.out.println(obj.toString());
-		String enString;
-		String results = "";
-		try {
-			enString = AESOperator.getInstance().encrypt(obj.toString());
-			results = TrustSSL.httpPost(strURL, enString);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} // 加密
-		result.put("param", obj.toString());
-		result.put("result", results);
-		renderJson(result);
+		Admin admin = getSessionAttr(StaticObject.LOGINUSER);
+		List<Projects> list = projectService.getList(admin.getProjects());
+		setAttr("projects", list);
+		render("main.jsp");
 	}
 	
 	public void logOut() {

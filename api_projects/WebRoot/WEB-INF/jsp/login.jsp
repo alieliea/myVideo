@@ -172,7 +172,7 @@
 								var msg = data.msg;
 								var success = 'success';
 								if (data.success) {
-									url = '${back_url}login/main';
+									url = '${back_url}admin/main';
 								}else{
 									msg = "登录失败！";
 									success = "warning";
