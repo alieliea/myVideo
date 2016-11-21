@@ -1,0 +1,19 @@
+jdbcUrl = jdbc:mysql://127.0.0.1:3306/api_project_test?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = root
+password = 111111
+devMode = true
+showSql = true
+
+##urls
+base_url = http://192.168.0.129:8080/api_projects/
+back_url = http://192.168.0.129:8080/api_projects/system/
+file_path = D:/attached/
+file_url = http://192.168.0.129:8080/api_projects/img/
+
+##上传文件的类型
+up_image = gif,jpg,jpeg,png,bmp
+up_flash = swf,flv
+up_media = swf,flv,mp3,wav,wma,wmv,mid,avi,mpg,asf,rm,rmvb
+up_file = doc,docx,xls,xlsx,ppt,htm,html,txt,zip,rar,gz,bz2
+
+maxSize = 1000000
