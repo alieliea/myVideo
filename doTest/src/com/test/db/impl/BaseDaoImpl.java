@@ -300,6 +300,8 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 		tableName = getTableName(t);
 		tables = DBManager.DB_Name + "/" + tableName;
 		this.t_class = t;
+		DBManager.init();
+		DBManager.createTable(getTableName(t));
 	}
 
 	public String getTableName(Class<T> t) {
