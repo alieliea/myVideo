@@ -10,6 +10,6 @@ public class AdminAction extends Controller{
 	
 	public void aaa(){
 		System.out.println(123);
-		renderText(adminService.checkName("admin").getUsername() + "::::" + adminService.dao().findById(1).getUsername());
+		renderText(adminService.checkName("admin").getUsername() + ":::::" + adminService.dao().findById(1).getUsername());
 	}
 }
