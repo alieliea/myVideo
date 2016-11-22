@@ -38,24 +38,27 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public List<Projects> getAllList() {
-		return dao.find("select * from api_projects where show=0");
+		return dao.find("select * from api_projects obj where obj.show=?",0);
 	}
 
 	@Override
-	public Page<ApiInfo> apiInfoPages(int pageNumbser, int pageSize, int projectsId, String name, Integer status,
+	public Page<ApiInfo> apiInfoPages(int pageNumber, int pageSize, int projectsId, String name, Integer status,
 			String url, Integer userid) {
 		String from = " from api_api_info as obj ";
 		String condition = " where obj.project_id=? ";
 		if (!StringUtil.isEmptyStr(name)) {
 			condition += " and (obj.name like '%" + name + "%' or obj.detail like '%" + name + "%')";
 		}
-		if (status != null) {
+		if (status != null && status != -1) {
 			condition += " and obj.status=" + status;
+		}
+		if (userid != null && userid != -1) {
+			condition += " and obj.user_id=" + userid;
 		}
 		if (!StringUtil.isEmptyStr(url)) {
 			condition += " and obj.doUrl like '%" + url + "%'";
 		}
-		return apiDao.paginate(pageNumbser, pageSize, "select obj.* ", from + condition, projectsId);
+		return apiDao.paginate(pageNumber, pageSize, "select obj.* ", from + condition, projectsId);
 	}
 
 	@Override

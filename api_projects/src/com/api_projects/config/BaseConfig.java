@@ -1,9 +1,12 @@
 package com.api_projects.config;
 
+import java.util.Timer;
+
 import com.api_projects.action.AdminAction;
 import com.api_projects.action.ApiAction;
 import com.api_projects.action.ProjectsAction;
 import com.api_projects.common.StaticObject;
+import com.api_projects.common.Task;
 import com.api_projects.interceptor.GlobalActionInterceptor;
 import com.api_projects.model._MappingKit;
 import com.jfinal.config.Constants;
@@ -19,6 +22,7 @@ import com.jfinal.plugin.c3p0.C3p0Plugin;
 import com.jfinal.render.ViewType;
 
 public class BaseConfig extends JFinalConfig {
+	private Timer timer = new Timer();
 	
 	public void configConstant(Constants me) {
 		PropKit.use("config.txt");
@@ -57,4 +61,16 @@ public class BaseConfig extends JFinalConfig {
 	public static void main(String[] args) {
 		JFinal.start("WebRoot", 80, "/", 5);
 	}
+	
+	@Override
+    public void afterJFinalStart() {
+        super.afterJFinalStart();
+        timer.schedule(new Task(), 0, 3600000);
+    }
+	
+	@Override
+    public void beforeJFinalStop() {
+        super.beforeJFinalStop();
+        timer.cancel();
+    }
 }

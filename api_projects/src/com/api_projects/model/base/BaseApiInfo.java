@@ -28,6 +28,14 @@ public abstract class BaseApiInfo<M extends BaseApiInfo<M>> extends BaseModel<M>
 		set("user_id", userId);
 	}
 
+	public java.lang.Integer getLastEdit() {
+		return get("lastEdit");
+	}
+
+	public void setLastEdit(java.lang.Integer lastEdit) {
+		set("lastEdit", lastEdit);
+	}
+
 	public java.lang.Integer getUserId() {
 		return get("user_id");
 	}

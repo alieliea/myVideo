@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.api_projects.common.StaticObject;
 import com.api_projects.model.ApiInOut;
 import com.api_projects.model.ApiInfo;
 import com.api_projects.model.Projects;
@@ -22,9 +23,22 @@ public class ProjectsAction extends Controller {
 	private LogService logService = new LogServiceImpl();
 
 	public void manage() {
-		int id = getParaToInt(0);
-		Projects projects = projectService.dao().findById(id);
+		int projectsId = getParaToInt("projectsId");
+		Projects projects = projectService.dao().findById(projectsId);
+		int status = getParaToInt("status", -1);
+		String url = getPara("url", "");
+		String name = getPara("name", "");
+		int userid = getParaToInt("userid", -1);
+		int pageNumber = getParaToInt("pageNumber", 1);
+		int pageSize = getParaToInt("pageSize", 10);
+		Page<ApiInfo> page = projectService.apiInfoPages(pageNumber, pageSize, projectsId, name, status, url, userid);
+		setAttr("page", page);
 		setAttr("projects", projects);
+		setAttr("status", status);
+		setAttr("url", url);
+		setAttr("name", name);
+		setAttr("userid", userid);
+		setAttr("userlist", StaticObject.userList);
 		render("manage.jsp");
 	}
 
@@ -69,7 +83,6 @@ public class ProjectsAction extends Controller {
 
 	public void addApiInfo() {
 		int id = getParaToInt(0, 0);
-		int view = getParaToInt(1, 0);
 		ApiInfo apiInfo = new ApiInfo();
 		if (id != 0) {
 			apiInfo = projectService.apiDao().findById(id);
@@ -77,15 +90,26 @@ public class ProjectsAction extends Controller {
 			setAttr("outList", projectService.apiInOutList(id, 1));
 		}
 		setAttr("apiInfo", apiInfo);
-		setAttr("view", view);
-		render("ApiInfo.jsp");
+		render("apiInfo.jsp");
+	}
+	
+	public void viewApiInfo(){
+		int id = getParaToInt(0, 0);
+		ApiInfo apiInfo = new ApiInfo();
+		if (id != 0) {
+			apiInfo = projectService.apiDao().findById(id);
+			setAttr("inList", projectService.apiInOutList(id, 0));
+			setAttr("outList", projectService.apiInOutList(id, 1));
+		}
+		setAttr("apiInfo", apiInfo);
+		render("view.jsp");
 	}
 
 	public void saveApiInfo() {
 		ApiInfo apiInfo = getModel(ApiInfo.class);
 		int isChange = getParaToInt("isChange");
-		String[] api_request = new String[]{"非必要","必要"};
-		String[] api_nature = new String[]{"传入参数","返回参数"};
+		String[] api_request = new String[] { "非必要", "必要" };
+		String[] api_nature = new String[] { "传入参数", "返回参数" };
 		String info = "";
 		if (apiInfo.getId() != null) {
 			info = "新增接口：" + apiInfo.getName();
@@ -93,19 +117,21 @@ public class ProjectsAction extends Controller {
 			ApiInfo old = projectService.apiDao().findById(apiInfo.getId());
 			info = "修改接口：" + old.getName() + "（" + old.getDoUrl() + "||" + old.getDetail() + "）to " + apiInfo.getName()
 					+ "（" + apiInfo.getDoUrl() + "||" + apiInfo.getDetail() + "）";
-			if(isChange == 1){
+			if (isChange == 1) {
 				List<ApiInOut> inlist = projectService.apiInOutList(apiInfo.getId(), 0);
 				List<ApiInOut> outlist = projectService.apiInOutList(apiInfo.getId(), 1);
 				String ins = "原传入参数：";
 				String outs = "原返回参数：";
-				if(inlist != null){
-					for(ApiInOut in : inlist){
-						ins += api_request[in.getRequest()] + " "  + in.getGenre() + ":" + in.getName() + "--" + in.getParticulars() + ",";
+				if (inlist != null) {
+					for (ApiInOut in : inlist) {
+						ins += api_request[in.getRequest()] + " " + in.getGenre() + ":" + in.getName() + "--"
+								+ in.getParticulars() + ",";
 					}
 				}
-				if(outlist != null){
-					for(ApiInOut out : outlist){
-						ins += api_request[out.getRequest()] + " "  + out.getGenre() + ":" + out.getName() + "--" + out.getParticulars() + ",";
+				if (outlist != null) {
+					for (ApiInOut out : outlist) {
+						ins += api_request[out.getRequest()] + " " + out.getGenre() + ":" + out.getName() + "--"
+								+ out.getParticulars() + ",";
 					}
 				}
 				info += ins + "||" + outs;
@@ -127,8 +153,8 @@ public class ProjectsAction extends Controller {
 				apiInOut.setParticulars(particularss[i]);
 				apiInOut.setRequest(Integer.valueOf(requests[i]));
 				apiInOut.setNature(Integer.valueOf(natures[i]));
-				info += api_request[Integer.valueOf(requests[i])] + " " + api_nature[Integer.valueOf(natures[i])] + " "  + genres[i] + ":"
-						+ names[i] + "--" + particularss[i] + ",";
+				info += api_request[Integer.valueOf(requests[i])] + " " + api_nature[Integer.valueOf(natures[i])] + " "
+						+ genres[i] + ":" + names[i] + "--" + particularss[i] + ",";
 				success = apiInOut.save();
 			}
 		}

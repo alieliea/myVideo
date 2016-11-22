@@ -22,8 +22,8 @@ window.pagination = {
 			li += '<li class="disabled"><a><i class="fa fa-angle-double-left"></i></a></li>';
 			li += '<li class="disabled"><a><i class="fa fa-angle-left"></i></a></li>';
 		}else{
-			li += '<li><a href="'+opts.url+'/1"><i class="fa fa-angle-double-left"></i></a></li>';
-			li += '<li><a href="'+opts.url+'/'+(parseInt(opts.page)-1)+'"><i class="fa fa-angle-left"></i></a></li>';
+			li += '<li><a href="javascript:search(1)"><i class="fa fa-angle-double-left"></i></a></li>';
+			li += '<li><a href="javascript:search(' + (parseInt(opts.page)-1) +')"><i class="fa fa-angle-left"></i></a></li>';
 		}
 		if(opts.total>5 && opts.page!=1){
 			li += '<li><a>...</a></li>';
@@ -42,18 +42,18 @@ window.pagination = {
 			if(opts.page==i){
 				li += '<li class="disabled active"><a>'+i+'</a></li>';
 			}else{
-				li += '<li><a href="'+opts.url+'/'+i+'">'+i+'</a></li>';
+				li += '<li><a href="javascript:search('+i+')">'+i+'</a></li>';
 			}
 		}
 		if(opts.total>5 && (opts.total-opts.page)>4){
 			li += '<li><a>...</a></li>';
 		}
-		if(opts.page == opts.total){
+		if(opts.page == opts.total || opts.total == 0){
 			li += '<li class="disabled"><a><i class="fa fa-angle-right"></i></a></li>';
 			li += '<li class="disabled"><a><i class="fa fa-angle-double-right"></i></a></li>';
 		}else{
-			li += '<li><a href="'+opts.url+'/'+(parseInt(opts.page)+1)+'"><i class="fa fa-angle-right"></i></a></li>';
-			li += '<li><a href="'+opts.url+'/'+opts.total+'"><i class="fa fa-angle-double-right"></i></a></li>';
+			li += '<li><a href="javascript:search('+(parseInt(opts.page)+1)+')"><i class="fa fa-angle-right"></i></a></li>';
+			li += '<li><a href="javascript:search('+opts.total+')"><i class="fa fa-angle-double-right"></i></a></li>';
 		}
 		obj.append(li);
 	}

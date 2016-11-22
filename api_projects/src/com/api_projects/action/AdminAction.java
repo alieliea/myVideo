@@ -22,6 +22,7 @@ public class AdminAction extends Controller {
 	private Map<String, Object> result = new HashMap<String, Object>();
 
 	public void toLogin() {
+		this.clearSessions();
 		render("login.jsp");
 	}
 
@@ -45,11 +46,6 @@ public class AdminAction extends Controller {
 		List<Projects> list = projectService.getAllList();
 		setAttr("projects", list);
 		render("main.jsp");
-	}
-	
-	public void logOut() {
-		this.clearSessions();
-		redirect("/admin/toLogin");
 	}
 	
 	private void clearSessions() {

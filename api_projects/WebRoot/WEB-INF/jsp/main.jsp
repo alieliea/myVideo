@@ -39,7 +39,6 @@
 			<div class="container-fluid container-nav">
 				<!-- Navbar Action -->
 				<ul class="nav navbar-nav navbar-actions navbar-left">
-					<li class="visible-md visible-lg"><a href="#" id="main-menu-toggle"><i class="fa fa-th-large"></i></a></li>
 					<li class="visible-xs visible-sm"><a href="#" id="sidebar-menu"><i class="fa fa-navicon"></i></a></li>			
 				</ul>
 				<!-- Navbar Left -->
@@ -59,6 +58,15 @@
 							</div>			
 							<i class="fa custom-caret"></i>
 						</a>
+						<div class="dropdown-menu">
+							<ul class="list-unstyled">
+								<li class="dropdown-menu-header bk-bg-white bk-margin-top-15">	
+								</li>	
+								<li>
+									<a href="${back_url }admin/toLogin"><i class="fa fa-power-off"></i>注销</a>
+								</li>
+							</ul>
+						</div>
 					</div>
 					<!-- End Userbox -->
 				</div>
@@ -82,7 +90,7 @@
 						<ul class="nav nav-sidebar">
 							<div class="panel-body text-center">								
 								<div class="flag">
-									<img src="${base_url }assets/img/flags/USA.png" class="img-flags" alt="" />
+									<img src="${base_url }assets/img/flags/timg.jpg" class="img-flags" style="width: 100px;" alt="" />
 								</div>
 							</div>
 							<jsp:include page="left.jsp"></jsp:include>

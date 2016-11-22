@@ -1,10 +1,13 @@
 package com.api_projects.common;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.api_projects.model.Admin;
 import com.jfinal.kit.Prop;
 import com.jfinal.kit.PropKit;
 
@@ -13,6 +16,7 @@ public class StaticObject {
 	public static final String CAPTCHA = "captcha";
 	public static final String LOGINUSER = "loginuser";
 	public static final String USERNAME = "rememberName";
+	public static List<Admin> userList = new ArrayList<Admin>();
 	public static Map<String, String> sessionMap = new HashMap<String, String>();
 	public static HashMap<String, String> extMap = new HashMap<String, String>();
 	public static String savePath;

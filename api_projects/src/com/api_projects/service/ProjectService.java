@@ -19,7 +19,7 @@ public interface ProjectService {
 	
 	public ApiInOut apiInOutDao();
 	
-	public Page<ApiInfo> apiInfoPages(int pageNumbser,int pageSize,int projectsId,String name,Integer status,String url,Integer userid);
+	public Page<ApiInfo> apiInfoPages(int pageNumber,int pageSize,int projectsId,String name,Integer status,String url,Integer userid);
 	
 	/**
 	 * 获取api参数详情
