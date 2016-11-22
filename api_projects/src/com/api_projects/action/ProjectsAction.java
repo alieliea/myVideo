@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.api_projects.common.StaticObject;
+import com.api_projects.interceptor.LoginInterceptor;
 import com.api_projects.model.ApiInOut;
 import com.api_projects.model.ApiInfo;
 import com.api_projects.model.Projects;
@@ -13,9 +14,11 @@ import com.api_projects.service.ProjectService;
 import com.api_projects.service.impl.LogServiceImpl;
 import com.api_projects.service.impl.ProjectServiceImpl;
 import com.api_projects.util.StringUtil;
+import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
 
+@Before(LoginInterceptor.class)
 public class ProjectsAction extends Controller {
 
 	private ProjectService projectService = new ProjectServiceImpl();
@@ -55,12 +58,12 @@ public class ProjectsAction extends Controller {
 	public void saveProjects() {
 		Projects projects = getModel(Projects.class);
 		String info = "";
-		if (projects.getId() != null) {
+		if (projects.getId() == null || projects.getId() == 0) {
 			info = "新增项目：" + projects.getName();
 		} else {
 			Projects old = projectService.dao().findById(projects.getId());
-			info = "修改项目：" + old.getName() + "（" + old.getTestUrl() + "||" + old.getRealUrl() + "）--"
-					+ projects.getName() + "（" + projects.getTestUrl() + "||" + projects.getRealUrl() + "）";
+			info = "修改项目：" + old.getName() + "（测试地址：" + old.getTestUrl() + "||真实地址：" + old.getRealUrl() + "）--"
+					+ projects.getName() + "（测试地址：" + projects.getTestUrl() + "||真实地址：" + projects.getRealUrl() + "）";
 		}
 		boolean success = projects.saveOrUpdate();
 		logService.saveLog(getSession(), info, projects.getId(), null);
@@ -68,21 +71,8 @@ public class ProjectsAction extends Controller {
 		renderJson(result);
 	}
 
-	public void apiList() {
-		int projectsId = getParaToInt("projectsId");
-		int status = getParaToInt("status");
-		String url = getPara("url");
-		String name = getPara("name");
-		int userid = getParaToInt("userid");
-		int pageNumbser = getParaToInt("pageNumbser");
-		int pageSize = getParaToInt("pageSize");
-		Page<ApiInfo> page = projectService.apiInfoPages(pageNumbser, pageSize, projectsId, name, status, url, userid);
-		result.put("page", page);
-		renderJson(result);
-	}
-
 	public void addApiInfo() {
-		int id = getParaToInt(0, 0);
+		int id = getParaToInt("apiId", 0);
 		ApiInfo apiInfo = new ApiInfo();
 		if (id != 0) {
 			apiInfo = projectService.apiDao().findById(id);
@@ -90,19 +80,28 @@ public class ProjectsAction extends Controller {
 			setAttr("outList", projectService.apiInOutList(id, 1));
 		}
 		setAttr("apiInfo", apiInfo);
+		setAttr("projectsId", getParaToInt("projectsId"));
 		render("apiInfo.jsp");
 	}
 	
 	public void viewApiInfo(){
-		int id = getParaToInt(0, 0);
-		ApiInfo apiInfo = new ApiInfo();
-		if (id != 0) {
-			apiInfo = projectService.apiDao().findById(id);
-			setAttr("inList", projectService.apiInOutList(id, 0));
-			setAttr("outList", projectService.apiInOutList(id, 1));
-		}
+		int id = getParaToInt();
+		ApiInfo apiInfo = projectService.apiDao().findById(id);
+		setAttr("inList", projectService.apiInOutList(id, 0));
+		setAttr("outList", projectService.apiInOutList(id, 1));
 		setAttr("apiInfo", apiInfo);
+		setAttr("projects", projectService.dao().findById(apiInfo.getProjectId()));
 		render("view.jsp");
+	}
+	
+	public void apiChange(){
+		int id = getParaToInt("id");
+		int status = getParaToInt("status");
+		ApiInfo apiInfo = projectService.apiDao().findById(id);
+		apiInfo.setStatus(status);
+		apiInfo.setLastEdit(Integer.valueOf(getSessionAttr(StaticObject.LOGINID).toString()));
+		result.put("success", apiInfo.saveOrUpdate());
+		renderJson(result);
 	}
 
 	public void saveApiInfo() {

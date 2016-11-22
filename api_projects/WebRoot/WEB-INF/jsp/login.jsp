@@ -148,7 +148,7 @@
 			$(document).ready(function(){
 				if(window === window.top){
 				}else{
-					window.parent.location.href="${base_url}system/login";
+					window.parent.location.href="${base_url}admin/toLogin";
 				}
 				var rememberName = localStorage.getItem("username");
 				if(rememberName != ''){

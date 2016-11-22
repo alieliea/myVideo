@@ -24,7 +24,9 @@
 	<div class="col-xs-12 bk-margin-top-15">
 		<div class="panel panel-default bk-bg-white">
 			<div class="panel-heading bk-bg-white">
-				<a href="javascript:editProjects(${projects.id})" class="btn btn-sm btn-info colorpicker-element" data-plugin-colorpicker="" data-color-format="hex">修改</a>
+				<c:if test="${loginuser.rank==1 || loginuser.status==0 }">
+					<a href="javascript:editProjects(${projects.id})" class="btn btn-sm btn-info colorpicker-element" data-plugin-colorpicker="" data-color-format="hex">修改</a>
+				</c:if>
 				<h6><span class="break"></span>项目：${projects.name }的接口列表
 				测试地址：${projects.testUrl }<span class="break"></span>
 				真实地址：${projects.realUrl }</h6>
@@ -77,7 +79,7 @@
 									<th class="sorting_asc" tabindex="0" aria-controls="datatable-default" rowspan="1" 
 										colspan="1" aria-sort="ascending" 
 										aria-label="Rendering engine: activate to sort column ascending" 
-										style="width: 15%;">接口名称</th>
+										style="width: 13%;">接口名称</th>
 									<th class="sorting" tabindex="0" aria-controls="datatable-default" 
 										rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" 
 										style="width: 20%;">接口地址</th>
@@ -95,7 +97,7 @@
 										style="width: 10%;">状态</th>
 									<th class="hidden-phone sorting" tabindex="0" aria-controls="datatable-default" 
 										rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" 
-										style="width: 10%;">操作</th>
+										style="width: 12%;">操作</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -122,8 +124,13 @@
 											<c:if test="${apiInfo.status==2 }">测试通过（定稿）</c:if>
 											<c:if test="${apiInfo.status==3 }">停用</c:if>
 										</td>
-										<td>查看 
-											<c:if test="${loginuser.rank==1||loginuser.rank==0 }">| 修改</c:if>
+										<td><a href="javascript:view(${apiInfo.id},'${apiInfo.name }');" style="color: green">查看 </a>
+											<c:if test="${loginuser.rank==1 || loginuser.status==0 }">
+												| 修改 
+												<c:if test="${apiInfo.status==0 }">
+													| <a href="javascript:doFinish(${apiInfo.id});" style="color: red">确认完成</a>
+												</c:if>
+											</c:if>
 										</td>
 									</tr>
 								</c:forEach>
@@ -179,7 +186,37 @@
        		$("#searchForm").submit();
        	}
        	function editProjects(id){
-       		
+       		window.parent.Addtabs.add({
+	           id: id,
+	           title: '修改项目',
+	           url: '${back_url}projects/viewApiInfo/'+id
+	       });
+       	}
+       	function addApi(projectsId,apiId){
+       		//新增/修改接口
+       	}
+       	function view(apiId,name){
+       		window.parent.Addtabs.add({
+ 	           id: apiId,
+ 	           title: '查看接口:' + name,
+ 	           url: '${back_url}projects/viewApiInfo/'+apiId
+ 	       });
+       	}
+       	function doFinish(id){
+       		$.ajax({
+				url : '${back_url}projects/apiChange',
+				data : {id:id,status:1},
+				success : function(data) {
+					if (data.success) {
+						window.parent.alertMessage("操作成功！", "操作成功！",
+								'success', '', null);
+					} else {
+						window.parent.alertMessage('操作失败！', '操作失败！',
+								"warning", '', null);
+					}
+					window.parent.refreshIframe();
+				}
+			});
        	}
 	</script>
 </body>
