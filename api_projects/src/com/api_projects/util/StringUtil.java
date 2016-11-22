@@ -50,6 +50,11 @@ public class StringUtil {
 		return uid.replace("-", "");
 	}
 
+	/**
+	 * 为空返回true
+	 * @param str
+	 * @return
+	 */
 	public static boolean isEmptyStr(String str) {
 		if (str != null && !"".equals(str.trim())) {
 			return false;

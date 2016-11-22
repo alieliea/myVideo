@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,7 +74,7 @@
 			<div class="sidebar-collapse">
 				<!-- Sidebar Header Logo-->
 				<div class="sidebar-header">
-					<img src="assets/img/logo.png" class="img-responsive" alt="" />
+					<img src="${base_url }assets/img/logo.png" class="img-responsive" alt="" />
 				</div>
 				<!-- Sidebar Menu-->
 				<div class="sidebar-menu">						
@@ -82,7 +82,7 @@
 						<ul class="nav nav-sidebar">
 							<div class="panel-body text-center">								
 								<div class="flag">
-									<img src="assets/img/flags/USA.png" class="img-flags" alt="" />
+									<img src="${base_url }assets/img/flags/USA.png" class="img-flags" alt="" />
 								</div>
 							</div>
 							<jsp:include page="left.jsp"></jsp:include>

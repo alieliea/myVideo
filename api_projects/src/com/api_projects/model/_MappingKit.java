@@ -19,6 +19,7 @@ public class _MappingKit {
 		arp.addMapping("api_admin", "id", Admin.class);
 		arp.addMapping("api_api_in_out", "id", ApiInOut.class);
 		arp.addMapping("api_api_info", "id", ApiInfo.class);
+		arp.addMapping("api_log", "id", Log.class);
 		arp.addMapping("api_projects", "id", Projects.class);
 	}
 }

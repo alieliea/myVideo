@@ -42,8 +42,7 @@ public class AdminAction extends Controller {
 
 	@Before(LoginInterceptor.class)
 	public void main() {
-		Admin admin = getSessionAttr(StaticObject.LOGINUSER);
-		List<Projects> list = projectService.getList(admin.getProjects());
+		List<Projects> list = projectService.getAllList();
 		setAttr("projects", list);
 		render("main.jsp");
 	}

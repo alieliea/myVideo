@@ -1,6 +1,8 @@
 package com.api_projects.config;
 
 import com.api_projects.action.AdminAction;
+import com.api_projects.action.ApiAction;
+import com.api_projects.action.ProjectsAction;
 import com.api_projects.common.StaticObject;
 import com.api_projects.interceptor.GlobalActionInterceptor;
 import com.api_projects.model._MappingKit;
@@ -27,6 +29,8 @@ public class BaseConfig extends JFinalConfig {
 
 	public void configRoute(Routes me) {
 		me.add("/admin", AdminAction.class,"/");
+		me.add("/api", ApiAction.class,"/");
+		me.add("/projects", ProjectsAction.class,"/projects");
 	}
 	public static C3p0Plugin createC3p0Plugin() {
 		return new C3p0Plugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
