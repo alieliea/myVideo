@@ -12,8 +12,4 @@ public abstract class BaseModel<M extends BaseModel<M>>  extends Model<M> {
 			return this.save();
 		}
 	}
-	public boolean deleteByLogic(){
-		this.set("status", 1);
-		return this.update();
-	}
 }

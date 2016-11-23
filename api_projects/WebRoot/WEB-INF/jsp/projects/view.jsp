@@ -113,7 +113,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="email-input">调试结果</label>
 						<div class="col-md-9">
-							<textarea id="textarea-input" id="result" rows="3" class="form-control"></textarea>
+							<textarea id="result" rows="7" class="form-control"></textarea>
 						</div>
 					</div>
 				</form>
