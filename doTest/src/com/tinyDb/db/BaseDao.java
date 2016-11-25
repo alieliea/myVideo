@@ -2,8 +2,8 @@ package com.tinyDb.db;
 
 import java.util.List;
 
-import com.test.util.Conditions;
-import com.test.util.Pages;
+import com.tinyDb.util.Conditions;
+import com.tinyDb.util.Pages;
 
 public interface BaseDao <T>{
 

@@ -12,10 +12,10 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.test.db.BaseDao;
-import com.test.db.DBManager;
-import com.test.util.Conditions;
-import com.test.util.Pages;
+import com.tinyDb.db.BaseDao;
+import com.tinyDb.db.DBManager;
+import com.tinyDb.util.Conditions;
+import com.tinyDb.util.Pages;
 
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
