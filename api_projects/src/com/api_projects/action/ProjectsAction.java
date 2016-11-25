@@ -74,12 +74,18 @@ public class ProjectsAction extends Controller {
 	public void addApiInfo() {
 		int id = getParaToInt("apiId", 0);
 		ApiInfo apiInfo = new ApiInfo();
+		int userId = getSessionAttr(StaticObject.LOGINID);
+		apiInfo.setUserId(userId);
+		int isChange = 0;
 		if (id != 0) {
 			apiInfo = projectService.apiDao().findById(id);
 			setAttr("inList", projectService.apiInOutList(id, 0));
 			setAttr("outList", projectService.apiInOutList(id, 1));
+			isChange = 1;
 		}
+		apiInfo.setLastEdit(userId);
 		setAttr("apiInfo", apiInfo);
+		setAttr("isChange", isChange);
 		setAttr("projectsId", getParaToInt("projectsId"));
 		render("apiInfo.jsp");
 	}
@@ -110,7 +116,7 @@ public class ProjectsAction extends Controller {
 		String[] api_request = new String[] { "非必要", "必要" };
 		String[] api_nature = new String[] { "传入参数", "返回参数" };
 		String info = "";
-		if (apiInfo.getId() != null) {
+		if (apiInfo.getId() == null || apiInfo.getId().intValue() == 0) {
 			info = "新增接口：" + apiInfo.getName();
 		} else {
 			ApiInfo old = projectService.apiDao().findById(apiInfo.getId());
@@ -138,15 +144,16 @@ public class ProjectsAction extends Controller {
 			}
 		}
 		boolean success = apiInfo.saveOrUpdate();
-		String[] names = getPara("name").split(",");
-		String[] genres = getPara("genre").split(",");
-		String[] particularss = getPara("particulars").split(",");
-		String[] requests = getPara("request").split(",");
-		String[] natures = getPara("nature").split(",");
-		if (!StringUtil.isEmptyStr(getPara("name"))) {
+		if(!StringUtil.isEmptyStr(getPara("name"))){
+			String[] names = getParaValues("name");
+			String[] genres = getParaValues("genre");
+			String[] particularss = getParaValues("particulars");
+			String[] requests = getParaValues("request");
+			String[] natures = getParaValues("nature");
 			info += "...现参数：";
 			for (int i = 0; i < names.length; i++) {
 				ApiInOut apiInOut = new ApiInOut();
+				apiInOut.setApiId(apiInfo.getId());
 				apiInOut.setGenre(genres[i]);
 				apiInOut.setName(names[i]);
 				apiInOut.setParticulars(particularss[i]);

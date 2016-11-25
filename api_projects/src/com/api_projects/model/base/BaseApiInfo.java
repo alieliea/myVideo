@@ -71,5 +71,21 @@ public abstract class BaseApiInfo<M extends BaseApiInfo<M>> extends BaseModel<M>
 	public java.lang.String getDoUrl() {
 		return get("doUrl");
 	}
+	
+	public void setMaxpage(java.lang.Integer maxpage) {
+		set("maxpage", maxpage);
+	}
+
+	public java.lang.Integer getMaxpage() {
+		return get("maxpage");
+	}
+	
+	public void setSubject(java.lang.String subject) {
+		set("subject", subject);
+	}
+
+	public java.lang.String getSubject() {
+		return get("subject");
+	}
 
 }

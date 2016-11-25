@@ -6,17 +6,12 @@
 <head>
 <meta charset="UTF-8" />
 <title></title>
-<meta name="viewport"
-	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-<link href="${base_url}assets/vendor/bootstrap/css/bootstrap.min.css"
-	rel="stylesheet" />
-<link
-	href="${base_url}assets/vendor/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link href="${base_url}assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="${base_url}assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 <link href="${base_url}css/css.css" rel="stylesheet" />
 
-<link href="${base_url}assets/vendor/skycons/css/skycons.css"
-	rel="stylesheet" />
+<link href="${base_url}assets/vendor/skycons/css/skycons.css" rel="stylesheet" />
 <link href="${base_url}assets/css/style.css" rel="stylesheet" />
 <link href="${base_url}assets/css/add-ons.min.css" rel="stylesheet" />
 <script src="${base_url}assets/plugins/modernizr/js/modernizr.js"></script>
@@ -79,16 +74,27 @@
 						<label class="col-md-3 control-label" for="inname">返回参数：</label>
 						<div class="col-md-9">
 							<div class="col-xs-2">
-								<span class="help-block">status（int）--1</span>
+								<span class="help-block">
+									{<br>&nbsp;status:1（int）
+									&nbsp;info:ok（String）
+									<c:if test="${apiInfo.maxpage!=null && apiInfo.maxpage!=0}">&nbsp;maxpage:总页数（int）</c:if>
+									<c:choose>
+										<c:when test="${apiInfo.subject!=null && apiInfo.subject!=''}">
+											&nbsp;${apiInfo.subject}{
+											<c:forEach items="${ outList}" var="out">
+												&nbsp;&nbsp;${out.name}:${out.particulars}（${out.genre}）,
+											</c:forEach>
+											&nbsp;}
+										</c:when>
+										<c:otherwise>
+											<c:forEach items="${ outList}" var="out">
+												&nbsp;${out.name}:${out.particulars}（${out.genre}）
+											</c:forEach>
+										</c:otherwise>
+									</c:choose>
+									<br>}
+								</span>
 							</div>
-							<div class="col-xs-2">
-								<span class="help-block">info（String）--ok</span>
-							</div>
-						<c:forEach items="${ outList}" var="out">
-							<div class="col-xs-2">
-								<span class="help-block">${out.name}（${out.genre}）--${out.particulars}</span>
-							</div>
-						</c:forEach>
 						</div>
 					</div>
 					<div class="form-group">

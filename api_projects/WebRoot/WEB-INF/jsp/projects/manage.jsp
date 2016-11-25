@@ -65,7 +65,7 @@
 									</div>
 									<a href="javascript:search(1)" class="btn btn-sm btn-warning colorpicker-element" 
 										data-plugin-colorpicker="" data-color-format="hex" data-color="rgb(42,111,244)">搜索</a>
-									<a href="javascript:add()" class="btn btn-sm btn-info colorpicker-element" 
+									<a href="javascript:add(0)" class="btn btn-sm btn-info colorpicker-element" 
 										data-plugin-colorpicker="" data-color-format="hex">新增</a>
 								</div>
 							</form>
@@ -82,16 +82,16 @@
 										style="width: 13%;">接口名称</th>
 									<th class="sorting" tabindex="0" aria-controls="datatable-default" 
 										rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending" 
-										style="width: 20%;">接口地址</th>
+										style="width: 13%;">接口地址</th>
 									<th class="sorting" tabindex="0" aria-controls="datatable-default" 
 										rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" 
-										style="width: 10%;">编写者</th>
+										style="width: 6%;">编写者</th>
 									<th class="sorting" tabindex="0" aria-controls="datatable-default" 
 										rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending" 
-										style="width: 10%;">最后修改人</th>
+										style="width: 6%;">最后修改</th>
 									<th class="hidden-phone sorting" tabindex="0" aria-controls="datatable-default" 
 										rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending" 
-										style="width: 24%;">详情</th>
+										style="width: 40%;">详情</th>
 									<th class="hidden-phone sorting" tabindex="0" aria-controls="datatable-default" 
 										rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending" 
 										style="width: 10%;">状态</th>
@@ -126,10 +126,10 @@
 										</td>
 										<td><a href="javascript:view(${apiInfo.id},'${apiInfo.name }');" style="color: green">查看 </a>
 											<c:if test="${loginuser.rank==1 || loginuser.status==0 }">
-												| 修改 
-												<c:if test="${apiInfo.status==0 }">
-													| <a href="javascript:doFinish(${apiInfo.id});" style="color: red">确认完成</a>
-												</c:if>
+												| <a href="javascript:add(${apiInfo.id});" style="color: blue">修改 </a>
+<%-- 												<c:if test="${apiInfo.status==0 }"> --%>
+<%-- 													| <a href="javascript:doFinish(${apiInfo.id});" style="color: red">确认完成</a> --%>
+<%-- 												</c:if> --%>
 											</c:if>
 										</td>
 									</tr>
@@ -217,6 +217,17 @@
 					window.parent.refreshIframe();
 				}
 			});
+       	}
+       	function add(id){
+       		var title = "新增接口";
+       		if(id != 0){
+       			title = "修改接口";
+       		}
+       		window.parent.Addtabs.add({
+  	           id: id,
+  	           title: title,
+  	           url: '${back_url}projects/addApiInfo?apiId='+id+"&projectsId=${projects.id }"
+  	       });
        	}
 	</script>
 </body>
