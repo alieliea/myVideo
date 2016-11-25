@@ -1,4 +1,4 @@
-package com.test.db.impl;
+package com.tinyDb.db.impl;
 
 import java.io.BufferedReader;
 import java.io.File;

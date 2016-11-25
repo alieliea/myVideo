@@ -1,4 +1,4 @@
-package com.test.util;
+package com.tinyDb.util;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.test.db;
+package com.tinyDb.db;
 
 import java.io.File;
 import java.io.IOException;

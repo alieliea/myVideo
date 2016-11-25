@@ -1,4 +1,4 @@
-package com.test.util;
+package com.tinyDb.util;
 
 public class Conditions {
 	private String name;		//搜索字段
