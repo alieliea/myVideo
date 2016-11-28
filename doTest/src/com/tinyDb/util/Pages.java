@@ -7,6 +7,7 @@ public class Pages<T> {
 	private int rows = 10;
 	private int count = 0;
 	private List<T> list;
+	private List<Conditions> conditions;
 
 	public int getPage() {
 		return page;
@@ -53,5 +54,13 @@ public class Pages<T> {
 		int max = (getPage() - 1) * getRows() + getRows();
 		max = max > count ? count : max;
 		return max;
+	}
+
+	public List<Conditions> getConditions() {
+		return conditions;
+	}
+
+	public void setConditions(List<Conditions> conditions) {
+		this.conditions = conditions;
 	}
 }

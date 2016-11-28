@@ -2,7 +2,6 @@ package com.tinyDb.db;
 
 import java.util.List;
 
-import com.tinyDb.util.Conditions;
 import com.tinyDb.util.Pages;
 
 public interface BaseDao <T>{
@@ -47,5 +46,5 @@ public interface BaseDao <T>{
 	 */
 	public abstract Pages<T> getALLByPage(Pages<T> pages);
 	
-	public abstract Pages<T> searchByPage_conditions(Pages<T> pages,List<Conditions> conditions);
+	public abstract Pages<T> searchByPage_conditions(Pages<T> pages);
 }

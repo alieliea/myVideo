@@ -168,7 +168,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 	
 	@Override
-	public Pages<T> searchByPage_conditions(Pages<T> pages,List<Conditions> conditions) {
+	public Pages<T> searchByPage_conditions(Pages<T> pages) {
 		String allStr = getALLStr();
 		if(allStr != null && !allStr.equals("")){
 			String[] values = allStr.split("\r\n");
@@ -176,8 +176,8 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 			for(String value : values){
 				JSONObject v = StringToJson(value);
 				boolean flag = false;
-				if(conditions != null){
-					for(Conditions condition : conditions){
+				if(pages.getConditions() != null){
+					for(Conditions condition : pages.getConditions()){
 						if(condition.getType() == 1 && v.get(condition.getName()).equals(condition.getValue())){
 							flag = true;
 						}
