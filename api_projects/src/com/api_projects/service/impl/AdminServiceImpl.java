@@ -11,7 +11,7 @@ public class AdminServiceImpl implements AdminService {
 
 	@Override
 	public Admin checkLogin(String name, String pass) {
-		return dao.findFirst("select * from api_admin where username=? and userpass=?", name, pass);
+		return dao.findFirst("select * from api_admin where username=? and userpass=?", name, MD5Util.GetMD5Code(pass));
 	}
 
 	@Override

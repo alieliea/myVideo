@@ -44,7 +44,7 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="text-input">项目名称</label>
 						<div class="col-md-9">
-							<input type="text" id="name" class="form-control"
+							<input type="text" id="name" class="form-control" name="projects.name"
 								value="${projects.name }" placeholder="请输入项目名称" required>
 						</div>
 					</div>

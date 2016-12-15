@@ -12,6 +12,7 @@ import com.api_projects.service.AdminService;
 import com.api_projects.service.ProjectService;
 import com.api_projects.service.impl.AdminServiceImpl;
 import com.api_projects.service.impl.ProjectServiceImpl;
+import com.api_projects.util.MD5Util;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
 

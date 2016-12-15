@@ -65,8 +65,10 @@
 									</div>
 									<a href="javascript:search(1)" class="btn btn-sm btn-warning colorpicker-element" 
 										data-plugin-colorpicker="" data-color-format="hex" data-color="rgb(42,111,244)">搜索</a>
-									<a href="javascript:add(0)" class="btn btn-sm btn-info colorpicker-element" 
+									<c:if test="${loginuser.rank==1 || loginuser.status==0 }">
+										<a href="javascript:add(0)" class="btn btn-sm btn-info colorpicker-element" 
 										data-plugin-colorpicker="" data-color-format="hex">新增</a>
+									</c:if>
 								</div>
 							</form>
 						</div>
@@ -189,7 +191,7 @@
        		window.parent.Addtabs.add({
 	           id: id,
 	           title: '修改项目',
-	           url: '${back_url}projects/viewApiInfo/'+id
+	           url: '${back_url}projects/addProjects/'+id
 	       });
        	}
        	function addApi(projectsId,apiId){

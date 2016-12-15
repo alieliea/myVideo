@@ -53,7 +53,7 @@
 								<img src="${base_url }assets/img/avatar4.jpg" class="img-circle" alt="" />
 							</figure>
 							<div class="profile-info">
-								<span class="name">${loginuser.username }</span>
+								<span class="name">${loginuser.realname }</span>
 <!-- 								<span class="role"><i class="fa fa-circle bk-fg-success"></i>程序猿</span> -->
 							</div>			
 							<i class="fa custom-caret"></i>
