@@ -73,22 +73,22 @@
 					<div class="form-group">
 						<label class="col-md-3 control-label" for="inname">返回参数：</label>
 						<div class="col-md-9">
-							<div class="col-xs-2">
+							<div class="col-xs-4">
 								<span class="help-block">
-									{<br>&nbsp;status:1（int）
-									&nbsp;info:ok（String）
-									<c:if test="${apiInfo.maxpage!=null && apiInfo.maxpage!=0}">&nbsp;maxpage:总页数（int）</c:if>
+									{<br>&nbsp;status:1（int）<br>
+									&nbsp;info:ok（String）<br>
+									<c:if test="${apiInfo.maxpage!=null && apiInfo.maxpage!=0}">&nbsp;maxpage:总页数（int）<br></c:if>
 									<c:choose>
 										<c:when test="${apiInfo.subject!=null && apiInfo.subject!=''}">
-											&nbsp;${apiInfo.subject}{
+											&nbsp;${apiInfo.subject}{<br>
 											<c:forEach items="${ outList}" var="out">
-												&nbsp;&nbsp;${out.name}:${out.particulars}（${out.genre}）,
+												&nbsp;&nbsp;${out.name}:${out.particulars}（${out.genre}）,<br>
 											</c:forEach>
 											&nbsp;}
 										</c:when>
 										<c:otherwise>
 											<c:forEach items="${ outList}" var="out">
-												&nbsp;${out.name}:${out.particulars}（${out.genre}）
+												&nbsp;${out.name}:${out.particulars}（${out.genre}）<br>
 											</c:forEach>
 										</c:otherwise>
 									</c:choose>
