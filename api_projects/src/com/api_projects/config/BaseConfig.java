@@ -23,6 +23,7 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
 
+
 public class BaseConfig extends JFinalConfig {
 	private Timer timer = new Timer();
 

@@ -1,4 +1,4 @@
-jdbcUrl = jdbc:mysql://localhost:3306/api_project?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+﻿jdbcUrl = jdbc:mysql://192.168.0.173:3306/api_project?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
 user = root
 password = 123456
 devMode = true
