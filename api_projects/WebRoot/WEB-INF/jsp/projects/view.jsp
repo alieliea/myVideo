@@ -143,6 +143,7 @@
 				$.ajax({
 					url : '${back_url}api/doTestApi',
 					data : $("form").serialize(),
+					type :'post',
 					success : function(data) {
 						$("#result").val(data.result);
 						$("#yourParam").html(data.param);

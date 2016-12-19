@@ -75,7 +75,7 @@
 							</div>
 							<div class="col-xs-2">
 								<p class="form-control-static">
-									<input type="text" id="subject" name="apiInfo.subject" value="${apiInfo.subject }" class="form-control" required>
+									<input type="text" id="subject" name="apiInfo.subject" value="${apiInfo.subject }" class="form-control">
 									<span class="help-block">返回主体名称</span>
 								</p>
 							</div>
